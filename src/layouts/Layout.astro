@@ -1,4 +1,5 @@
 ---
+import { ViewTransitions } from 'astro:transitions';
 import Navbar from '../components/Navbar.astro'
 interface Props {
 	title: string;
@@ -16,6 +17,7 @@ const { title, description } = Astro.props;
                 <link rel="canonical" href={Astro.url} />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<title>{title}</title>
+                <ViewTransitions />
 	</head>
 	<body class='bg-white dark:bg-slate-800 text-gray-900'> 
                 <Navbar/>
@@ -24,20 +26,25 @@ const { title, description } = Astro.props;
 </html>
 
 <script is:inline>
-  const theme = (() => {
-    if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
-      return localStorage.getItem("theme");
-    }
-    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-      return "dark";
-    }
-    return "light";
-  })();
+const theme = (() => {
+        if (typeof localStorage !== "undefined" && localStorage.getItem("theme")) {
+                 return localStorage.getItem("theme");
+        }
+        if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+             return "dark";
+        }
+        return "light";
+})();
+document.addEventListener('astro:after-swap', function () {
+        if (localStorage.getItem("theme") === 'dark') {
+                document.documentElement.setAttribute('data-mode', 'dark')
+        } 
+});
 
-  if (theme === "light") {
-    document.documentElement.removeAttribute('data-mode');
-  } else {
-    document.documentElement.setAttribute('data-mode', 'dark')
-  }
-  window.localStorage.setItem("theme", theme);
+if (theme === "light") {
+        document.documentElement.removeAttribute('data-mode');
+} else {
+        document.documentElement.setAttribute('data-mode', 'dark')
+}
+window.localStorage.setItem("theme", theme);
 </script>
