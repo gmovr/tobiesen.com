@@ -21,7 +21,7 @@ You _can_ sort of reverse engineer the API using something like Wireshark, but y
 
 
 ## So, how can I set it up in Home Assistant?
-![All AC units added to Home Assistant](/img/homeassistant-bosch-homecom-easy.jpeg)
+![All AC units added to Home Assistant](../../assets/img/homeassistant-bosch-homecom-easy.jpeg)
 
 It's actually pretty simple. After some research online I saw that the boards are manufactured by Midea, who produce a lot of AC units from brands like Bosch, Electrolux, Beko, and many more.
 
@@ -32,7 +32,7 @@ I found [these controllers from Smartlight.me](https://smartlight.me/smart-home-
 ## Installation
 I replaced the modules from Bosch with the above unit, and logged onto the temporary WiFi network it creates. I set it up on my IOT SSID, giving each unit a static IP. After about 2 minutes I tested adding them to Home Assistant with the ESP Home config, providing their local IP addresses and the default port. 
 
-![Original AC unit replaced with unit from Smartlight](/img/homeassistant-bosch-homecom-easy2.jpeg)
+![Original AC unit replaced with unit from Smartlight](../../assets/img/homeassistant-bosch-homecom-easy2.jpeg)
 
 And (a bit surprisingly) it worked right out of the box. With all the units added to Home Assistant, I went ahead and added them to the HomeKit bridge in Home Assistant, and got them over in my Apple Home app. 
 
