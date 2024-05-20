@@ -1,0 +1,26 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { getCollection } from 'astro:content';
+import Prose from '../components/Prose.astro'
+
+const allBlogPosts = await getCollection('blog');
+---
+
+<Layout 
+        title="Blog post archives"
+        description="My blog posts, from travel, to programming and home automation."
+>
+<Prose>
+        <h1>Blog post archive</h1>
+        <ul>
+        {
+                allBlogPosts.map( ( post ) => (
+                        <li><a href={`/${post.slug}`}>{post.data.title}</a></li>
+                ))
+        }
+        </ul>
+</Prose>
+</Layout>
+
+
+
