@@ -32,7 +32,7 @@ I found [these controllers from Smartlight.me](https://smartlight.me/smart-home-
 ## Installation
 I replaced the modules from Bosch with the above unit, and logged onto the temporary WiFi network it creates. I set it up on my IOT SSID, giving each unit a static IP. After about 2 minutes I tested adding them to Home Assistant with the ESP Home config, providing their local IP addresses and the default port. 
 
-![Original AC unit replaced with unit from Smartlight]((../../assets/img/homeassistant-bosch-homecom-easy2.jpeg)
+![Original AC unit replaced with unit from Smartlight](../../assets/img/homeassistant-bosch-homecom-easy2.jpeg)
 
 And (a bit surprisingly) it worked right out of the box. With all the units added to Home Assistant, I went ahead and added them to the HomeKit bridge in Home Assistant, and got them over in my Apple Home app. 
 
