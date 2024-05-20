@@ -1,0 +1,33 @@
+---
+type NavbarLink = {
+        title: string,
+        href: string,
+}
+
+const navbarLinks: Array<NavbarLink> = [
+        {
+                title: "Now",
+                href: "/now",
+        },
+        {
+                title: "Archive",
+                href: "/blog",
+        },
+        {
+                title: "Contact",
+                href: "/contact"
+        }
+];
+---
+<nav class="text-black dark:invert flex mx-auto max-w-screen-lg items-center justify-between">
+<a href="/" class="text-4xl font-mono">~/</a>
+<div>
+        <ul class="flex gap-4">
+                {
+                        navbarLinks.map( link => (
+                                <li><a href={link.href}>{link.title}</a></li>                       
+                        ))
+                }
+        </ul>
+</div>
+</nav>
