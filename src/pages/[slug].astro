@@ -1,39 +1,41 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { getEntry } from "astro:content";
-import Prose from '../components/Prose.astro'
+import { getEntry } from 'astro:content';
+import Prose from '../components/Prose.astro';
 
 const { slug } = Astro.params;
 
 if (slug === undefined) {
-  throw new Error("Slug is required");
+	throw new Error('Slug is required');
 }
 
-const entry = await getEntry("blog", slug);
+const entry = await getEntry('blog', slug);
 
 if (entry === undefined) {
-  return Astro.redirect("/404");
+	return Astro.redirect('/404');
 }
 
 const { Content } = await entry.render();
 
 const getOrGenerateMetaDescription = entry.data.description || '';
 ---
-<Layout
-        title={entry.data.title}
-        description={getOrGenerateMetaDescription}
-        >
-        <Prose>
-            <h1>{entry.data.title}</h1>
-            <Content/>
-            <div class="flex justify-between flex-col gap-4 mt-8 pt-4 border-dotted border-t border-gray-500">  
-                <div class="flex gap-2 items-center flex-col md:flex-row">
-                Tagged: 
-                {entry.data.tags.map( tag => (
-                        <span class="rounded-full px-3 py-1 text-sm font-semibold text-white bg-gradient-to-r from-pink-500 to-rose-500">{`# ${tag}`}</span>
-                ))}
-                </div>
-                <span class="text-sm">Published: {entry.data.publishedDate.toDateString()}</span>
-            </div>
-        </Prose>
+
+<Layout title={entry.data.title} description={getOrGenerateMetaDescription}>
+	<Prose>
+		<h1>{entry.data.title}</h1>
+		<Content />
+		<div
+			class="mt-8 flex flex-col justify-between gap-4 border-t border-dotted border-gray-500 pt-4"
+		>
+			<div class="flex flex-col items-center gap-2 md:flex-row">
+				Tagged:
+				{
+					entry.data.tags.map((tag) => (
+						<span class="rounded-full bg-gradient-to-r from-pink-500 to-rose-500 px-3 py-1 text-sm font-semibold text-white">{`# ${tag}`}</span>
+					))
+				}
+			</div>
+			<span class="text-sm">Published: {entry.data.publishedDate.toDateString()}</span>
+		</div>
+	</Prose>
 </Layout>

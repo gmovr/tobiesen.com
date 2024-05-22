@@ -1,28 +1,31 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
-import Prose from '../components/Prose.astro'
+import Prose from '../components/Prose.astro';
 
 const allBlogPosts = await getCollection('blog');
 ---
 
-<Layout 
-        title="Tobiesen.com"
-        description="Personal Website of Even Tobiesen"
->
-<Prose>
-        <h1>Hello,</h1>
-        <p>My name is Even Tobiesen. I'm a software engineering lead from Barcelona, Spain. I'm currently working at Automattic, where I write marketing and billing code for WordPress.com.</p>
-        <p>I'm writing about home automation, programming, and I also share some travel photos from time to time.</p>
-        <h2>My latest posts</h2>
-        <ul>
-        {
-                allBlogPosts.map( ( post ) => (
-                        <li><a href={`/${post.slug}`}>{post.data.title}</a></li>
-                ))
-        }
-        </ul>
-</Prose>
+<Layout title="Tobiesen.com" description="Personal Website of Even Tobiesen">
+	<Prose>
+		<h1>Hello,</h1>
+		<p>
+			My name is Even Tobiesen. I'm a software engineering lead from Barcelona, Spain. I'm currently
+			working at Automattic, where I write marketing and billing code for WordPress.com.
+		</p>
+		<p>
+			I'm writing about home automation, programming, and I also share some travel photos from time
+			to time.
+		</p>
+		<h2>My latest posts</h2>
+		<ul>
+			{
+				allBlogPosts.map((post) => (
+					<li>
+						<a href={`/${post.slug}`}>{post.data.title}</a>
+					</li>
+				))
+			}
+		</ul>
+	</Prose>
 </Layout>
-
-

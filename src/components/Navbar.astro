@@ -1,33 +1,42 @@
 ---
 type NavbarLink = {
-        title: string,
-        href: string,
-}
+	title: string;
+	href: string;
+};
 
 const navbarLinks: Array<NavbarLink> = [
-        {
-                title: "Now",
-                href: "/now",
-        },
-        {
-                title: "Archive",
-                href: "/blog",
-        },
-        {
-                title: "Contact",
-                href: "/contact"
-        }
+	{
+		title: 'Now',
+		href: '/now',
+	},
+	{
+		title: 'Archive',
+		href: '/blog',
+	},
+	{
+		title: 'Contact',
+		href: '/contact',
+	},
 ];
 ---
-<nav class="text-black dark:text-white flex mx-auto max-w-screen-lg items-center justify-between pt-2 mb-12">
-<a href="/" class="text-3xl font-mono tracking-tighter hover:bg-gradient-to-l bg-gradient-to-r from-pink-500 to-rose-500 bg-clip-text text-transparent transition duration-500">~/tobiesen</a>
-<div>
-        <ul class="flex gap-4">
-                {
-                        navbarLinks.map( link => (
-                                <li><a href={link.href}>{link.title}</a></li>                       
-                        ))
-                }
-        </ul>
-</div>
+
+<nav
+	class="mx-auto mb-12 flex max-w-screen-lg items-center justify-between pt-2 text-black dark:text-white"
+>
+	<a
+		href="/"
+		class="bg-gradient-to-r from-pink-500 to-rose-500 bg-clip-text font-mono text-3xl tracking-tighter text-transparent transition duration-500 hover:bg-gradient-to-l"
+		>~/tobiesen</a
+	>
+	<div>
+		<ul class="flex gap-4">
+			{
+				navbarLinks.map((link) => (
+					<li>
+						<a href={link.href}>{link.title}</a>
+					</li>
+				))
+			}
+		</ul>
+	</div>
 </nav>
