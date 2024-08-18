@@ -1,28 +1,23 @@
 ---
+import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
-import { getEntry } from 'astro:content';
 import Prose from '../components/Prose.astro';
 
-const { slug } = Astro.params;
 
-if (slug === undefined) {
-	throw new Error('Slug is required');
+export const getStaticPaths = async () => {
+        const entries = await getCollection('blog');
+        return entries.map( (item) => ({
+                params: { slug: item.slug }, props: { item },
+        }));
 }
-
-const entry = await getEntry('blog', slug);
-
-if (entry === undefined) {
-	return Astro.redirect('/404');
-}
-
-const { Content } = await entry.render();
-
-const getOrGenerateMetaDescription = entry.data.description || '';
+const { item } = Astro.props;
+const { Content } = await item.render();
+const getOrGenerateMetaDescription = item.data.description || '';
 ---
 
-<Layout title={entry.data.title} description={getOrGenerateMetaDescription}>
+<Layout title={item.data.title} description={getOrGenerateMetaDescription}>
 	<Prose>
-		<h1>{entry.data.title}</h1>
+		<h1>{item.data.title}</h1>
 		<Content />
 		<div
 			class="mt-8 flex flex-col justify-between gap-4 border-t border-dotted border-gray-500 pt-4"
@@ -30,12 +25,12 @@ const getOrGenerateMetaDescription = entry.data.description || '';
 			<div class="flex flex-col items-center gap-2 md:flex-row">
 				Tagged:
 				{
-					entry.data.tags.map((tag) => (
+					item.data.tags.map((tag) => (
 						<span class="rounded-full bg-gradient-to-r from-pink-500 to-rose-500 px-3 py-1 text-sm font-semibold text-white">{`# ${tag}`}</span>
 					))
 				}
 			</div>
-			<span class="text-sm">Published: {entry.data.publishedDate.toDateString()}</span>
+			<span class="text-sm">Published: {item.data.publishedDate.toDateString()}</span>
 		</div>
 	</Prose>
 </Layout>

@@ -9,7 +9,7 @@ import sitemap from "@astrojs/sitemap";
 // https://astro.build/config
 export default defineConfig({
   integrations: [tailwind(), mdx(), preact(), sitemap()],
-  output: "server",
+  output: "static",
   site: "https://tobiesen.com",
   adapter: netlify(),
 });
