@@ -1,6 +1,6 @@
 ---
-title: How to add my iCloud calendar to Home Assistant via CalDAV
-description: An easy way to show a card of our shared calendar from iCloud in Home Assistant dashboard
+title: How I added my iCloud calendar to Home Assistant via CalDAV
+description: An easy way to show a card for a calendar from iCloud in your Home Assistant dashboard. Perfect for shared calendars, work calendars, or reminders.
 tags:
     - Home Automation
     - Home Assistant
