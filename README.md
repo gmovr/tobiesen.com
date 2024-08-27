@@ -7,5 +7,10 @@ Public repository for Tobiesen.com with Astro, Tailwind, etc.
 - Husky for pre-commit hooks (for linting).
 - MDX and content collections.
 
+## Setup
+```sh
+pnpm install
+```
+
 ## Content
 The content is written in Obsidian, where the `scr/content` folder is symlinked to my Obsidian vault.
