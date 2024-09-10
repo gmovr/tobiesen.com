@@ -17,6 +17,9 @@ const { title, description } = Astro.props;
 		<meta name="viewport" content="width=device-width" />
 		<link rel="canonical" href={Astro.url} />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+                <link rel="alternate" type="application/rss+xml" 
+                                      title="RSS feed for Tobiesen.com" 
+                                      href="/feed.xml" />
 		<title>{title}</title>
 		<ViewTransitions />
 	</head>
