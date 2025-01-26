@@ -21,6 +21,8 @@ const navbarLinks: Array<NavbarLink> = [
 
 // Get current path for active state
 const currentPath = Astro.url.pathname;
+const normalizePath = (path: string) => path.replace(/\/$/, '');
+const isCurrentPath = (href: string) => normalizePath(currentPath) === normalizePath(href);
 ---
 
 <nav
@@ -42,15 +44,11 @@ const currentPath = Astro.url.pathname;
 						<a 
 							href={link.href} 
 							class="group relative inline-block no-underline overflow-hidden py-1"
-							aria-current={currentPath === link.href ? 'page' : undefined}
+							aria-current={isCurrentPath(link.href) ? 'page' : undefined}
 						>
 							<span class="relative">
 								{link.title}
-								<span class:list={[
-									"absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-pink-500 to-rose-500",
-									"transition-transform duration-300 ease-out origin-left",
-									currentPath === link.href ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
-								]} />
+								<span class="absolute inset-x-0 bottom-0 h-0.5 bg-gradient-to-r from-pink-500 to-rose-500 origin-left transition-transform duration-300 ease-out scale-x-0 group-hover:scale-x-100 group-aria-[current=page]:scale-x-100" />
 							</span>
 						</a>
 					</li>
