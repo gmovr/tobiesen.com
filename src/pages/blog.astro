@@ -3,7 +3,31 @@ import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import Prose from '../components/Prose.astro';
 
-const allBlogPosts = await getCollection('blog');
+// Get all published posts sorted by date
+const allPosts = (await getCollection('blog', ({ data }) => {
+	return data.isDraft !== true;
+})).sort(
+	(a, b) => b.data.publishedDate.valueOf() - a.data.publishedDate.valueOf()
+);
+
+// Group posts by year
+const postsByYear = allPosts.reduce((acc, post) => {
+	const year = new Date(post.data.publishedDate).getFullYear();
+	if (!acc[year]) {
+		acc[year] = [];
+	}
+	acc[year].push(post);
+	return acc;
+}, {} as Record<number, typeof allPosts>);
+
+// Sort years in descending order
+const years = Object.keys(postsByYear).map(Number).sort((a, b) => b - a);
+
+// Helper to truncate text
+const truncate = (text: string, limit: number) => {
+	if (text.length <= limit) return text;
+	return text.slice(0, limit).trim() + '...';
+};
 ---
 
 <Layout
@@ -12,14 +36,51 @@ const allBlogPosts = await getCollection('blog');
 >
 	<Prose>
 		<h1>Blog post archive</h1>
-		<ul>
-			{
-				allBlogPosts.map((post) => (
-					<li>
-						<a href={`/${post.slug}`}>{post.data.title}</a>
-					</li>
-				))
-			}
-		</ul>
+		
+		{years.map(year => (
+			<section class="mb-12">
+				<h2>{year}</h2>
+				<ul class="grid gap-6 list-none m-0 p-0">
+					{postsByYear[year].map((post) => (
+						<li class="pl-0 flex">
+							<div class="flex items-start w-full">
+								<span class="text-zinc-500 w-24 shrink-0">
+									{post.data.publishedDate.toLocaleDateString('en-US', {
+										month: 'short',
+										day: 'numeric'
+									})}
+								</span>
+								<div class="flex-1">
+									<h3 class="text-lg font-normal m-0" style="margin-block-start: 0">
+										<a 
+											href={`/${post.slug}`} 
+											class="inline-block no-underline"
+										>
+											<span 
+												class="bg-gradient-to-r from-pink-500 to-rose-500 bg-clip-text decoration-transparent transition-all duration-300 ease-in-out"
+												style="background-size: 100%; -webkit-background-clip: text; color: currentColor;"
+												onmouseenter="this.style.color='transparent'"
+												onmouseleave="this.style.color='currentColor'"
+											>
+												{post.data.title}
+											</span>
+										</a>
+									</h3>
+									<div class="text-zinc-600 dark:text-zinc-400 mt-1 mb-1">
+										{truncate(post.data.description, 125)}
+									</div>
+									<a 
+										href={`/${post.slug}`} 
+										class="bg-gradient-to-r from-pink-500 to-rose-500 bg-clip-text text-transparent transition duration-500 hover:bg-gradient-to-l whitespace-nowrap block mt-1"
+									>
+										Read more →
+									</a>
+								</div>
+							</div>
+						</li>
+					))}
+				</ul>
+			</section>
+		))}
 	</Prose>
 </Layout>

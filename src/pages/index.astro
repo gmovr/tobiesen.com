@@ -3,17 +3,25 @@ import Layout from '../layouts/Layout.astro';
 import { getCollection } from 'astro:content';
 import Prose from '../components/Prose.astro';
 
-const allBlogPosts = await getCollection('blog');
+// Get all published blog posts and sort by date
+const allPosts = (await getCollection('blog', ({ data }) => {
+    return data.isDraft !== true;
+})).sort(
+    (a, b) => b.data.publishedDate.valueOf() - a.data.publishedDate.valueOf()
+);
+
+const posts = allPosts.slice(0, 10);
+const hasMorePosts = allPosts.length > 10;
 ---
 
 <Layout title="Tobiesen.com" description="Personal Website of Evan Tobiesen">
 	<Prose>
 		<h1>¡Hey! 👋</h1>
 		<p>
-		    I’m Evan Tobiesen. I lead software projects at Automattic, focusing on growth, hiring, and MarTech for WordPress.com.
+		    I'm Evan Tobiesen. I lead software projects at Automattic, focusing on growth, hiring, and MarTech for WordPress.com.
 		</p>
 		<p>
-		    I’m into home automation, building cool stuff (in code or otherwise), cars, and finding excuses to travel. Originally from Norway, I’ve been living in exile near Barcelona with my wife for over a decade.
+		    I'm into home automation, building cool stuff (in code or otherwise), cars, and finding excuses to travel. Originally from Norway, I've been living in exile near Barcelona with my wife for over a decade.
 		</p>
 		<p>
 		    My biggest passion is travel, and I plan to add many more countries and places to this list until I no longer can: 🇦🇱 🇦🇩 🇦🇷 🇧🇪 🇧🇿 🇧🇷 🇨🇳 🇭🇷 🇨🇺 🇨🇿 🇩🇰 🇪🇬 🇪🇪 🇫🇮 🇫🇷 🇩🇪 🇬🇮 🇬🇷 🇬🇹 🇭🇺 🇮🇸 🇮🇩 🇮🇱 🇮🇹 🇰🇪 🇱🇻 🇱🇺 🇲🇹 🇲🇽 🇳🇱 🇳🇴 🇵🇸 🇵🇱 🇵🇹 🇷🇴 🇷🇼 🇪🇸 🇸🇪 🇨🇭 🇹🇭 🇹🇳 🇹🇷 🇺🇬 🇦🇪 🇬🇧 🇺🇸 (🐻🏔️🍊🏛️🗽🏡🍍🤠🐊🌲🥔)🇺🇾 🇻🇦 🇯🇵 🇨🇩
@@ -22,14 +30,37 @@ const allBlogPosts = await getCollection('blog');
 		    Here, I (infrequently) share tech tips, programming thoughts, and other random stuff as I think of it.
 		</p>
 		<h2>My latest posts</h2>
-		<ul>
+		<ul class="grid gap-2 list-none m-0 p-0">
 			{
-				allBlogPosts.map((post) => (
-					<li>
-						<a href={`/${post.slug}`}>{post.data.title}</a>
+				posts.map((post) => (
+					<li class="flex flex-col sm:flex-row sm:items-baseline pl-0">
+						<span class="text-zinc-500 sm:w-32 sm:shrink-0">
+							{post.data.publishedDate.toLocaleDateString('en-US', {
+								year: 'numeric',
+								month: 'short',
+								day: 'numeric'
+							})}
+						</span>
+						<a href={`/${post.slug}`} class="inline-block no-underline">
+							<span 
+								class="bg-gradient-to-r from-pink-500 to-rose-500 bg-clip-text decoration-transparent transition-all duration-300 ease-in-out no-underline"
+								style="background-size: 100%; -webkit-background-clip: text; color: currentColor;"
+								onmouseenter="this.style.color='transparent'"
+								onmouseleave="this.style.color='currentColor'"
+							>
+								{post.data.title}
+							</span>
+						</a>
 					</li>
 				))
 			}
 		</ul>
+		{hasMorePosts && (
+			<p class="mt-4">
+				<a href="/blog" class="text-blue-500 hover:text-blue-600">
+					View all posts →
+				</a>
+			</p>
+		)}
 	</Prose>
 </Layout>
