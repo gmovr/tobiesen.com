@@ -1,5 +1,5 @@
 ---
-import { ViewTransitions } from 'astro:transitions';
+import { ViewTransitions, fade, slide } from 'astro:transitions';
 import Navbar from '../components/Navbar.astro';
 interface Props {
 	title: string;
@@ -24,8 +24,14 @@ const { title, description } = Astro.props;
 		<ViewTransitions />
 	</head>
 	<body class="bg-white pb-8 text-gray-900 max-sm:px-2 dark:bg-slate-800">
-		<Navbar />
-		<slot />
+		<div class="container mx-auto px-4">
+			<Navbar />
+			<main>
+				<div transition:animate={slide({ duration: 200, y: 10 })} transition:animate={fade({ duration: 200 })}>
+					<slot />
+				</div>
+			</main>
+		</div>
 		<script is:inline>
 			const theme = (() => {
 				if (typeof localStorage !== 'undefined' && localStorage.getItem('theme')) {

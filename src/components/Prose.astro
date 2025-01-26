@@ -1,13 +1,20 @@
 ---
+interface Props {
+	class?: string;
+}
 
+const { class: className } = Astro.props;
 ---
 
 <div
-	class="prose-h1:text-xxl rose-p:text-justify prose prose-sm prose-slate mx-auto mt-8
-  lg:prose-lg
-  xl:prose-xl
-  dark:prose-invert prose-h1:font-semibold
-  prose-table:table-fixed prose-img:rounded-xl"
+	class:list={[
+		'prose prose-sm prose-slate mx-auto mt-8 lg:prose-lg xl:prose-xl dark:prose-invert prose-h1:font-semibold prose-table:table-fixed prose-img:rounded-xl',
+		'[&_p_a]:relative [&_li:not(.flex)_a]:relative',
+		'[&_p_a]:underline [&_li:not(.flex)_a]:underline [&_p_a]:decoration-current/30 [&_li:not(.flex)_a]:decoration-current/30 [&_p_a]:underline-offset-4 [&_li:not(.flex)_a]:underline-offset-4',
+		'[&_p_a]:transition-all [&_li:not(.flex)_a]:transition-all [&_p_a]:duration-300 [&_li:not(.flex)_a]:duration-300',
+		'[&_p_a:hover]:decoration-pink-500 [&_li:not(.flex)_a:hover]:decoration-pink-500',
+		className
+	]}
 >
 	<slot />
 </div>
