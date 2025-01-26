@@ -27,7 +27,7 @@ const { title, description } = Astro.props;
 		<div class="container mx-auto px-4">
 			<Navbar />
 			<main>
-				<div transition:animate={slide({ duration: 200, y: 10 })} transition:animate={fade({ duration: 200 })}>
+				<div transition:animate={fade({ duration: '0.4s' })}>
 					<slot />
 				</div>
 			</main>
